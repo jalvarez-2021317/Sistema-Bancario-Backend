@@ -10,11 +10,9 @@ const createAdminUser = async () => {
       nombre: "ADMINB",
       userName: "ADMINB",
       password: bcryptjs.hashSync("ADMINB", salt),
-      NoCuenta: "123456789",
       Dpi: 1234567890123,
       Celular: 1234567890,
       email: "admin@example.com",
-      IngresosMensauales: 5000,
       role: "Administrador"
     };
 

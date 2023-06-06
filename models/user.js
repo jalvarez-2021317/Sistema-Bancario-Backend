@@ -38,7 +38,6 @@ const userSchema = Schema({
     },
     IngresosMensauales:{
         type: Number,
-        require:[true, "Los ingresos son requeridos"]
     },
     role:{
         type: String,

@@ -7,7 +7,7 @@ const cuentaSchema =  Schema({
   },
   saldo: {
     type: Number,
-    default: 0
+    default: 100
   },
   fechaCreacion: {
     type: Date,

@@ -24,7 +24,6 @@ const createCuenta = async (req, res) => {
 
     const cuentaData = {
       noCuenta: randomNoCuenta.toString(),
-      saldo: 0
     };
 
     const cuentaDB = new Cuenta(cuentaData);
