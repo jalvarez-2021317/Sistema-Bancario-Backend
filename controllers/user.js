@@ -37,33 +37,33 @@ const getUsers = async ({ query }, res) => {
   res.json({ msg: 'GET API de Users', listaUsers });
 };
 
-const postUser = async ({ body }, res) => {
-  const salt = bcryptjs.genSaltSync();
-  let randomNoCuenta = Math.floor(Math.random() * 5000) + 1;
+const postUser = async (req, res) => {
+  try {
+    const salt = bcryptjs.genSaltSync();
 
-  let existingUser = await User.findOne({ NoCuenta: randomNoCuenta });
-  let attempts = 0;
-  const maxAttempts = 10;
+    const existingUser = await User.findOne({ NoCuenta: req.body.NoCuenta });
+    if (existingUser) {
+      return res.status(400).json({ error: 'El número de cuenta ya está en uso' });
+    }
 
-  while (existingUser && attempts < maxAttempts) {
-    randomNoCuenta = Math.floor(Math.random() * 5000) + 1;
-    existingUser = await User.findOne({ NoCuenta: randomNoCuenta });
-    attempts++;
+    const cuenta = new Cuenta({
+      noCuenta: req.body.NoCuenta,
+      saldo: 0
+    });
+    await cuenta.save();
+
+    const userData = {
+      ...req.body,
+      password: bcryptjs.hashSync(req.body.password, salt),
+      NoCuenta: cuenta._id
+    };
+
+    const userDB = new User(userData);
+    await userDB.save();
+    res.status(201).json({ msg: 'POST API de User', userDB });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al crear el usuario' });
   }
-
-  if (existingUser) {
-    return res.status(400).json({ error: 'No se pudo generar un número de cuenta único' });
-  }
-
-  const userData = {
-    ...body,
-    password: bcryptjs.hashSync(body.password, salt),
-    NoCuenta: randomNoCuenta
-  };
-
-  const userDB = new User(userData);
-  await userDB.save();
-  res.status(201).json({ msg: 'POST API de User', userDB });
 };
 
 

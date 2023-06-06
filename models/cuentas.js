@@ -5,11 +5,6 @@ const cuentaSchema =  Schema({
     type: String,
     required: true
   },
-  User: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
   saldo: {
     type: Number,
     default: 0
@@ -17,6 +12,10 @@ const cuentaSchema =  Schema({
   fechaCreacion: {
     type: Date,
     default: Date.now
+  },
+  TipoCuenta:{
+    type: Schema.Types.ObjectId,
+    ref: 'TipeCuenta',
   }
 });
 

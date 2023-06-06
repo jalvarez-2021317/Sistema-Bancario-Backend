@@ -16,8 +16,8 @@ const userSchema = Schema({
     },
     
     NoCuenta:{
-        type:String,
-        require:[true,'The NoCuenta is require']
+        type: Schema.Types.ObjectId,
+        ref: 'Cuenta',
     },
     Dpi:{
         type: Number,
