@@ -11,7 +11,7 @@ const createAdminUser = async () => {
       userName: "ADMINB",
       password: bcryptjs.hashSync("ADMINB", salt),
       Dpi: 1234567890123,
-      Celular: 1234567890,
+      Celular: 12345678,
       email: "admin@example.com",
       role: "Administrador"
     };
@@ -39,21 +39,15 @@ const postUser = async (req, res) => {
   try {
     const salt = bcryptjs.genSaltSync();
 
-    const existingUser = await User.findOne({ NoCuenta: req.body.NoCuenta });
+    const existingUser = await User.findOne({ userName: req.body.userName });
     if (existingUser) {
-      return res.status(400).json({ error: 'El número de cuenta ya está en uso' });
+      return res.status(400).json({ error: 'El nombre de usuario ya está en uso' });
     }
-
-    const cuenta = new Cuenta({
-      noCuenta: req.body.NoCuenta,
-      saldo: 0
-    });
-    await cuenta.save();
 
     const userData = {
       ...req.body,
       password: bcryptjs.hashSync(req.body.password, salt),
-      NoCuenta: cuenta._id
+      NoCuenta: null
     };
 
     const userDB = new User(userData);
@@ -66,7 +60,13 @@ const postUser = async (req, res) => {
 
 
 const putUser = async ({ params, body }, res) => {
-  const allowedFields = ['nombre', 'userName', 'password', 'email'];
+  const user = await User.findById(params.id);
+
+  if (user.userName !== body.userName) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const allowedFields = ['password', 'email'];
   const updates = {};
 
   for (const field of allowedFields) {
@@ -78,9 +78,10 @@ const putUser = async ({ params, body }, res) => {
   const salt = bcryptjs.genSaltSync();
   updates.password = bcryptjs.hashSync(body.password, salt);
 
-  const UserEditado = await User.findByIdAndUpdate(params.id, updates);
-  res.json({ msg: 'PUT API de User', UserEditado });
+  await User.findByIdAndUpdate(params.id, updates);
+  res.json({ msg: 'PUT API de User', user });
 };
+
 
 const deleteUser = async ({ params }, res) => {
   const UserEliminado = await User.findByIdAndDelete(params.id);

@@ -16,9 +16,9 @@ const userSchema = Schema({
     },
     
     NoCuenta:{
-        type: Schema.Types.ObjectId,
+        type: [Schema.Types.ObjectId],
         ref: 'Cuenta',
-    },
+      },
     Dpi:{
         type: Number,
         requiere:[true,'Dpi is Require']
@@ -41,7 +41,7 @@ const userSchema = Schema({
     },
     role:{
         type: String,
-        default : "User_rol"
+        default : "USER_ROL"
     },
     estado:{
         type: Boolean,

@@ -11,7 +11,8 @@ class Server {
         this.paths = {
             usuario: '/api/user',
             auth: '/api/auth',
-            cuentas: '/api/cuenta'
+            cuentas: '/api/cuenta',
+            trasacciones: '/api/transaccion'
            
         }
 
@@ -49,8 +50,9 @@ class Server {
 
     routes(){
          this.app.use( this.paths.usuario , require('../routes/user') );
-         this.app.use(this.paths.auth, require('../routes/auth'))
-         this.app.use(this.paths.cuentas, require('../routes/cuentas'))
+         this.app.use(this.paths.auth, require('../routes/auth'));
+         this.app.use(this.paths.cuentas, require('../routes/cuentas'));
+         this.app.use(this.paths.trasacciones,require('../routes/transacciones'))
        
     }
 

@@ -18,8 +18,8 @@ const router = Router()
         check('password', 'La passwarod debe ser mayor a 6 letras').isLength({ min: 6 }),
         check('email', 'El email no es valido').isEmail(),
         check('email').custom( emailExiste ),
-        check('rol', 'El rol es obligatorio para el post').not().isEmpty(),
-        check('rol').custom( esRoleValido )
+       // check('rol', 'El rol es obligatorio para el post').not().isEmpty(),
+        //check('rol').custom( esRoleValido )
     ], postUser)
     .put('/editar/:id',[
         check('id', 'No es un ID valido').isMongoId(),
