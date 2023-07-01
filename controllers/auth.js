@@ -17,10 +17,18 @@ const login = async (req = request, res = response) => {
         if (!validarPassword) return res.status(400).json({ msg: 'La contraseña es incorrecta' });
 
         const token = await generarJWT(user.id);
-        res.json({ msg: '¡Login Auth Funciona!', userName, password, token });
+     
+
+        res.json({  
+            nombre: user.nombre,
+            rol: user.role,
+            userName, password,
+            token 
+        });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ msg: 'Hable con el admin' });
+        res.status(500).json
+        ({ msg: 'Hable con el admin' });
     }
 };
 

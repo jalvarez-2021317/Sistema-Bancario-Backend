@@ -7,11 +7,12 @@ const { check } = require('express-validator');
 const { emailExiste } = require('../helpers/db-validators');
 const { esRoleValido } = require('../helpers/db-validators');
 const { existeUserPorId } = require('../helpers/db-validators');
-const { getUsers, postUser, putUser, deleteUser } = UserController;
+const { getUsers, postUser, putUser, deleteUser, getUsersByUserRole} = UserController;
 
 
 const router = Router()
     .get('/mostrar', getUsers)
+    .get('/mostrarUser', getUsersByUserRole)
     .post('/agregar', [
         check('nombre', 'El nombre es obligatorio para el post').not().isEmpty(),
         check('password', 'La password es obligatorio para el post').not().isEmpty(),

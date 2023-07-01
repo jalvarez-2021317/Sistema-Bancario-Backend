@@ -3,7 +3,7 @@ const bcryptjs = require('bcryptjs');
 const User = require('../models/user');
 
 const createAdminUser = async () => {
-  const adminUser = await User.findOne({ role: "Administrador" });
+  const adminUser = await User.findOne({ role: "ADMIN_ROLE" });
   if (!adminUser) {
     const salt = bcryptjs.genSaltSync();
     const userData = {
@@ -13,7 +13,7 @@ const createAdminUser = async () => {
       Dpi: 1234567890123,
       Celular: 12345678,
       email: "admin@example.com",
-      role: "Administrador"
+      role: "ADMIN_ROLE"
     };
 
     const userDB = new User(userData);
@@ -28,10 +28,8 @@ const createAdminUser = async () => {
 createAdminUser();
 
 const getUsers = async ({ query }, res) => {
-  const listaUsers = await Promise.all([
-    User.countDocuments(query),
-    User.find(query)
-  ]);
+  const listaUsers = await User.find(query)
+  
   res.json({ msg: 'GET API de Users', listaUsers });
 };
 
@@ -88,10 +86,16 @@ const deleteUser = async ({ params }, res) => {
   res.json({ msg: 'DELETE API de User', UserEliminado });
 };
 
+const getUsersByUserRole = async ({ query }, res) => {
+  const listaUsers = await User.find({ role: "USER_ROL", ...query });
+  res.json({ msg: 'GET API de Users con USER_ROLE', listaUsers });
+};
+
 module.exports = {
   getUsers,
   postUser,
   putUser,
   deleteUser,
-  createAdminUser
+  createAdminUser,
+  getUsersByUserRole
 };
