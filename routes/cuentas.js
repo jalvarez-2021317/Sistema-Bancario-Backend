@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCuentas, createCuenta, updateCuenta, deleteCuenta, getCuentasByUsuario } = require('../controllers/cuentas');
+const { getCuentas, createCuenta, updateCuenta, deleteCuenta, getCuentasByUsuario, getCuentasDelUsuario } = require('../controllers/cuentas');
 const router = express.Router();
 
 // Ruta para obtener todas las cuentas
@@ -15,5 +15,6 @@ router.put('/update/:id', updateCuenta);
 
 // Ruta para eliminar una cuenta
 router.delete('/delete/:id', deleteCuenta);
+router.get('/NC/:usuarioId', getCuentasDelUsuario);
 
 module.exports = router;

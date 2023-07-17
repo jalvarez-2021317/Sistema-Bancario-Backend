@@ -89,10 +89,22 @@ const deleteCuenta = async (req, res) => {
   }
 };
 
+const getCuentasDelUsuario = async (req, res) => {
+  try {
+    const { usuarioId } = req.params;
+    const cuentas = await Cuenta.find({ usuario: usuarioId });
+    const numerosDeCuenta = cuentas.map((cuenta) => cuenta.noCuenta);
+    res.json({ msg: 'GET API de Cuentas por Usuario', numerosDeCuenta });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener las cuentas del usuario' });
+  }
+};
+
 module.exports = {
   getCuentas,
   getCuentasByUsuario,
   createCuenta,
   updateCuenta,
-  deleteCuenta
+  deleteCuenta,
+  getCuentasDelUsuario
 };
